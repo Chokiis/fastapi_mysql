@@ -1,0 +1,30 @@
+# docker-compose.yml
+version: '3'
+
+services:
+  fastapi:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: appvinoc
+      MYSQL_DB: apivinoc
+
+  mysql:
+      image: mysql:latest
+      volumes:
+        - mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: appvinoc
+        MYSQL_DATABASE: apivinoc
+      ports:
+        - "3306:3306"
+volumes:
+  mysql_data:

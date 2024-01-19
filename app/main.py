@@ -5,10 +5,14 @@ from config.connection import dbConnection
 from routers.user import user_router
 from routers.admin import admin_router
 from contextlib import asynccontextmanager
+from middleware.error_handler import ErrorHandler
 
 app = FastAPI()
 app.title = "VINOC"
 app.version = "0.0.1"
+
+# Middleware
+app.add_middleware(ErrorHandler)
 
 # Conexión a db
 @asynccontextmanager
